@@ -68,3 +68,39 @@ int main(void) {
 	printf("DE = %f", ae * bc / ac);//AC:AE=BC:DE, AE*BC = AC*DE ∴DE = AE*BC/AC
 }
 */
+//10
+/*
+int main(void){
+	int x, y;
+	printf("X : ");
+	scanf("%d", &x);
+	printf("Y : ");
+	scanf("%d", &y);
+	printf("%d 사분면", (x>0 && y>0)? 1 : (x<0 && y>0)? 2 : (x<0 && y<0)? 3 : 4);	//이걸 더 간단하게 줄일 수 있는 방법이 뭘까요?? 
+}
+*/
+//11
+/*
+int main(void){
+	float l, rad;
+	printf("l angle : ");
+	scanf("%f %f", &l, &rad); //900, 7.2
+	rad *= PI / 180.0;
+	printf("r = %f", l / rad);	//l = r * rad (rad = angle * (PI / 180.0))
+}
+*/
+//12
+/*
+int main(void){
+	unsigned int bit_char = 0;
+	int bit_position = 0;
+	char ch;
+	for(int i = 0; i < 4; i++){
+		scanf(" %c", &ch);
+		bit_char = ch << bit_position | bit_char;
+		bit_position += 8;
+		printf("%x\n", bit_char);
+	}
+	printf("%x\n", bit_char);
+}
+*/
