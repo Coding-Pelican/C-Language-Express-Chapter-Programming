@@ -1,5 +1,4 @@
 //self_check_4
-/*
 #include <stdio.h>
 int main(void){
 	int n;
@@ -14,4 +13,3 @@ int main(void){
 		putchar('\n');
 	}
 }
-*/
