@@ -186,3 +186,15 @@ int main(void){
 	printf("%d\n", result);
 }
 */
+//14
+/*
+int main(void){
+	int n;
+	int k = 1;
+	scanf("%d", &n);
+	do{
+		printf("%d", (n / k) % 10);
+		k *= 10;
+	}while(!(n / k == 0));
+}
+*/
