@@ -20,6 +20,9 @@ int main(void){
 			case 'F':
 				printf("%lf\n", input_temp(1));
 				break;
+			case 'q':
+			case 'Q':
+				break;
 			default:
 				puts("Error");
 				break;
@@ -28,8 +31,10 @@ int main(void){
 }
 
 char input_option(){
+	char ch;
 	printf(">> ");
-	return getchar(); 
+	scanf(" %c", &ch);
+	return ch;
 }
 
 char print_option(){
@@ -51,5 +56,5 @@ double input_temp(int type){
 	double temp;
 	printf(">> ");
 	scanf("%lf", &temp);
-	return type == 0 ? ctof(temp) : type == 1 ? ftoc(temp) : NULL;
+	return type == 0 ? ctof(temp) : type == 1 ? ftoc(temp) : 0;
 }
