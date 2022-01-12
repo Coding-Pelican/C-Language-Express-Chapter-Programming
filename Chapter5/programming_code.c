@@ -1,6 +1,22 @@
 #include<stdio.h>
 #include<math.h>
 #define PI 3.14159
+//01
+/*
+int main(void){
+	int a, b;
+	scanf("%d %d", &a, &b);	//10 3
+	printf("%d %d", a/b, a%b);
+}
+*/
+//02
+/*
+int main(void){
+	double a, b;
+	scanf("%lf %lf", &a, &b);
+	printf("%lf %lf %lf %lf", a + b, a - b, a * b, a / b);
+}
+*/
 //03
 /*
 int main(void) {
