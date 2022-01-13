@@ -171,6 +171,7 @@ int get_integer(){
 	return n;
 }
 */
+/*
 //10
 int get_integer();
 char get_char();
@@ -232,3 +233,68 @@ int get_integer(){
 	scanf("%d", &n);
 	return n;
 }
+*/
+//11
+/*
+double f_rand();
+int main(void){
+	printf("%lf ", f_rand());
+	printf("%lf ", f_rand());
+	printf("%lf ", f_rand());
+	printf("%lf ", f_rand());
+	printf("%lf ", f_rand());
+}
+double f_rand(){
+	return rand()/(double)RAND_MAX;
+}
+*/
+//12
+/*
+int get_integer();
+void print_value(int n);
+void display_input_message();
+int main(void){
+	int n;
+	do{
+		display_input_message();
+		n = get_integer();
+		print_value(n);
+	} while(n > -1);
+}
+void display_input_message(){
+	puts("값을 입력하시오(종료 -1)");
+}
+void print_value(int n){
+	for(int i = 0; i < n; i++){
+		printf("*");
+	}
+	putchar('\n');
+}
+int get_integer(){
+	int n;
+	printf(">> ");
+	scanf("%d", &n);
+	return n;
+}
+*/
+//13
+/*
+int get_integer();
+int is_mutiple(int n, int m);
+int main(void){
+	int n, m;
+	n = get_integer();
+	m = get_integer();
+	printf("%d is ", n);
+	is_mutiple(n, m) == 1 ? printf("a multiple of %d.", m) : printf("not a multiple of %d.", m);
+}
+int is_mutiple(int n, int m){
+	return n % m == 0 ? 1 : 0;
+}
+int get_integer(){
+	int n;
+	printf(">> ");
+	scanf("%d", &n);
+	return n;
+}
+*/
