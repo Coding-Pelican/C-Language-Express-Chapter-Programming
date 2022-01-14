@@ -298,3 +298,209 @@ int get_integer(){
 	return n;
 }
 */
+//14
+/*
+double distance(double x1, double y1, double x2, double y2);
+int main(void){
+	double pos_x[2] = { 0, };
+	double pos_y[2] = { 0, };
+	for (int i = 0; i < 2; i++){
+		printf(">> ");
+		scanf("%lf %lf", &pos_x[i], &pos_y[i]);
+	}
+	printf("%lf", distance(pos_x[0], pos_y[0], pos_x[1], pos_y[1]));
+}
+double distance(double x1, double y1, double x2, double y2){
+	return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+}
+*/
+//15
+/*
+int is_prime(int _n);
+int main(void){
+	for(int i = 0; i < 100; i++){
+		is_prime(i + 1) == TRUE ? printf("%d ", i + 1) : NULL;
+	}
+}
+int is_prime(int _n){
+	for (int i = 2; i < _n; i++){
+		if (_n % i == 0){
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+*/
+//16
+/*
+int get_integer();
+long long factorial(long long _n);
+int main(void){
+	int n = get_integer();
+	double result = 1;
+	for(int i = 0; i < n; i++){
+		result += 1 / (double)factorial(i + 1);
+	}
+	printf("%lf", result);
+}
+long long factorial(long long _n){
+	return _n == 1 ? 1 : _n * factorial(_n - 1);
+}
+int get_integer(){
+	int n;
+	printf(">> ");
+	scanf("%d", &n);
+	return n;
+}
+*/
+//17
+/*
+const double e = 0.000001;
+double get_double();
+double f_equal(double a, double b);
+double f_abs(double x);
+double f_min(double x, double y);
+int main(void){
+	double x = get_double();
+	double y = get_double();
+	f_equal(x, y) == TRUE ? puts("두 개의 실수는 서로 같음") : puts("두 개의 실수는 서로 다름");
+}
+double f_min(double x, double y){
+	return x < y ? x : y;
+}
+double f_abs(double x){
+	return x < 0 ? x * -1 : x;
+}
+double f_equal(double a, double b){
+	return (f_abs(a - b) / f_min(f_abs(a), f_abs(b))) < e ? TRUE : FALSE;
+}
+double get_double(){
+	double n;
+	printf(">> ");
+	scanf("%lf", &n);
+	return n;
+}
+*/
+//18
+/*
+int get_integer();
+double get_double();
+char get_char();
+double add(double _x, double _y);
+double sub(double _x, double _y);
+double mul(double _x, double _y);
+double div(double _x, double _y);
+int mod(int _x, int _y);
+void display_menu();
+void print_horizontal_line();
+void display_input_message();
+void print_proceed_confirmation_message();
+int is_continue(char state);
+
+int main(void){
+	int selected_menu = 0;
+	char choice_proceed;
+	double x, y;
+	while(TRUE){
+		display_menu();
+		display_input_message();
+		selected_menu = get_integer();
+		x = get_double();
+		y = get_double();
+		switch(selected_menu){
+			case 1 :
+				printf("%lf\n", add(x, y));
+				break;
+			case 2 :
+				printf("%lf\n", sub(x, y));
+				break;
+			case 3 :
+				printf("%lf\n", mul(x, y));
+				break;
+			case 4 :
+				printf("%lf\n", div(x, y));
+				break;
+			case 5 :
+				printf("%d\n", mod((int)x, (int)y));
+				break;
+			default :
+				break;
+		}
+		print_proceed_confirmation_message();
+		choice_proceed = get_char();
+		if(is_continue(choice_proceed) == TRUE){
+			continue;	
+		} else{
+			break;
+		}
+	}
+}
+
+int is_continue(char state){
+	return state == 'y' || state == 'Y' ? TRUE : FALSE;
+}
+
+void print_proceed_confirmation_message(){
+	puts("계속하려면 y를 누르시오");
+}
+
+void display_input_message(){
+	puts("원하는 메뉴를 선택하시오(1-5)");
+}
+
+void print_horizontal_line(){
+	puts("=============================");
+}
+
+void display_menu(){
+	print_horizontal_line();
+	puts("MENU");
+	print_horizontal_line();
+	puts("1. 덧셈");
+	puts("2. 뺄셈");
+	puts("3. 곱셈");
+	puts("4. 나눗셈");
+	puts("5. 나머지");
+}
+
+int mod(int _x, int _y){
+	return _x % _y;
+}
+
+double div(double _x, double _y){
+	return _x / _y;
+}
+
+double mul(double _x, double _y){
+	return _x * _y;
+}
+
+double sub(double _x, double _y){
+	return _x - _y;
+}
+
+double add(double _x, double _y){
+	return _x + _y;
+}
+
+char get_char(){
+	char ch;
+	printf(">> ");
+	scanf(" %c", &ch);
+	return ch;
+}
+
+double get_double(){
+	double n;
+	printf(">> ");
+	scanf("%lf", &n);
+	return n;
+}
+
+int get_integer(){
+	int n;
+	printf(">> ");
+	scanf("%d", &n);
+	return n;
+}
+*/
