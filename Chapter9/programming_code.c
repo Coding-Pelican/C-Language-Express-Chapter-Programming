@@ -7,6 +7,7 @@
 #define FALSE 0
 
 //01
+/*
 double add(double _x, double _y);
 double sub(double _x, double _y);
 double mul(double _x, double _y);
@@ -77,4 +78,33 @@ double sub(double _x, double _y){
 double add(double _x, double _y){
 	n_add++;
 	return _x + _y;
+}
+*/
+//02
+void count_dice_face(int face, int max_cnt);
+int get_dice_face();
+int main(void){
+	srand((unsigned)time(NULL));
+	for (int i = 0; i < 100; i++){
+		count_dice_face(get_dice_face(), 100);
+	}
+}
+int get_dice_face(){
+	return rand() % 6 + 1;
+}
+void count_dice_face(int face, int max_cnt){
+	static int face_cnt[6] = {0, };
+	static int cnt = 0;
+	if(cnt < max_cnt){
+		cnt++;
+		face_cnt[face-1]++;
+		printf("%d회 시행\n", cnt);
+	} 
+	if(cnt == max_cnt){
+		for(int i = 0; i < 6; i++){
+			printf("%d -> %d\n", i + 1, face_cnt[i]);
+		}
+		face_cnt[6] = {0, };
+		cnt = 0;
+	}
 }
