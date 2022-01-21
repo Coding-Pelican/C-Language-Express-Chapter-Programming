@@ -81,30 +81,32 @@ double add(double _x, double _y){
 }
 */
 //02
-void count_dice_face(int face, int max_cnt);
+/*
+void count_dice_face(int face);
 int get_dice_face();
+int max_cnt;
 int main(void){
 	srand((unsigned)time(NULL));
-	for (int i = 0; i < 100; i++){
-		count_dice_face(get_dice_face(), 100);
+	max_cnt = 10;
+	for (int i = 0; i < max_cnt; i++){
+		count_dice_face(get_dice_face());
 	}
 }
 int get_dice_face(){
 	return rand() % 6 + 1;
 }
-void count_dice_face(int face, int max_cnt){
+void count_dice_face(int face){
 	static int face_cnt[6] = {0, };
 	static int cnt = 0;
-	if(cnt < max_cnt){
-		cnt++;
-		face_cnt[face-1]++;
-		printf("%d회 시행\n", cnt);
-	} 
+	cnt++;
+	face_cnt[face - 1]++;
+	printf("%d회 시행\n", cnt);
 	if(cnt == max_cnt){
+		cnt = 0;
 		for(int i = 0; i < 6; i++){
 			printf("%d -> %d\n", i + 1, face_cnt[i]);
+			face_cnt[i] = 0;
 		}
-		face_cnt[6] = {0, };
-		cnt = 0;
 	}
 }
+*/
