@@ -18,8 +18,13 @@ void select_seat(TypeOfReservation type);
 void display_seat_selection_input_message();
 void display_seat_check_message();
 void display_seat_reserved_message();
+void display_seat_selection_table(int number_of_reservations);
 
 static int seats[SIZE_OF_SEATING_ARR] = {
+    Open,
+    Closed,
+    Closed,
+    Open,
     Open,
     Closed,
     Closed,
@@ -41,12 +46,14 @@ int main(void) {
     }
 }
 
+void display_number_of_reservations_input_message() { puts("Please enter number of reservations"); }
 void display_seat_reserved_message() { puts("Seat successfully reserved."); }
 void display_seat_check_message() { puts("Would you like to reserve this seat? (y or n)"); }
 void display_seat_selection_input_message() { printf("Please select a open seat (1-%d)\n", SIZE_OF_SEATING_ARR); }
 void select_seat(TypeOfReservation type) {
     int selection;
     int is_checked;
+    int number_of_reservations;
     while (TRUE) {
         if (type == Individual) {
             display_seat_selection_input_message();
@@ -70,7 +77,9 @@ void select_seat(TypeOfReservation type) {
                 continue;
             }
         } else {
-            display_seat_selection_input_message();
+        	display_number_of_reservations_input_message();
+            number_of_reservations = get_input_integer();
+            display_seat_selection_table(number_of_reservations);
         }
     }
 }
@@ -84,6 +93,23 @@ void display_choice_type_of_reservation_input_message() {
     puts("Please choose a type of reservation");
     puts("1. Individual");
     puts("2. Group");
+}
+void display_seat_selection_table(int number_of_reservations) {  // n = 3 // 0 X X 3 4 5 6 7 8 9 => X X X 3 4 5 6 7 X X
+	int is_closed = 0;
+	print_horizontal_line();
+	for (int i = 0; i < SIZE_OF_SEATING_ARR; i += 3){
+		if ((seats[i] == Closed || seats[i + 1] == Closed || seats[i + 2] == Closed)){
+			printf(" X ");
+			printf(" X ");
+			printf(" X ");
+		} else{
+			for (int j = i; j < i + 3 && j < SIZE_OF_SEATING_ARR; j++) {
+    		    seats[j] == Open ? printf("%2d ", j + 1) : seats[j] == Selected ? printf(" # ") : printf(" X ");
+  		  	}
+		}
+	}
+    putchar('\n');
+    print_horizontal_line();
 }
 void display_seat_table() {
     print_horizontal_line();
