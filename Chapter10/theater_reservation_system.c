@@ -18,22 +18,15 @@ void select_seat(TypeOfReservation type);
 void display_seat_selection_input_message();
 void display_seat_check_message();
 void display_seat_reserved_message();
-void display_seat_selection_table(int number_of_reservations);
 
 static int seats[SIZE_OF_SEATING_ARR] = {
     Open,
-    Closed,
-    Closed,
-    Open,
-    Open,
-    Closed,
-    Closed,
-    Open,
 };
+static int number_of_open_seats = SIZE_OF_SEATING_ARR;
 
 int main(void) {
     char reservation_status;
-    while (TRUE) {
+    while (number_of_open_seats > 0) {
         display_choice_input_message();
         reservation_status = get_input_char();
         if (is_status_positive(reservation_status) == TRUE) {
@@ -51,37 +44,51 @@ void display_seat_reserved_message() { puts("Seat successfully reserved."); }
 void display_seat_check_message() { puts("Would you like to reserve this seat? (y or n)"); }
 void display_seat_selection_input_message() { printf("Please select a open seat (1-%d)\n", SIZE_OF_SEATING_ARR); }
 void select_seat(TypeOfReservation type) {
-    int selection;
+    int selection[SIZE_OF_SEATING_ARR] = { 0, };
     int is_checked;
     int number_of_reservations;
     while (TRUE) {
-        if (type == Individual) {
-            display_seat_selection_input_message();
-            selection = get_input_integer();
-            if (seats[selection - 1] == Closed) {
-                continue;
+    	if(type ==  Individual){
+    		number_of_reservations = 1;
+		} else{
+			if (number_of_open_seats < 2){
+				return;
+			}
+			display_number_of_reservations_input_message();
+       		number_of_reservations = get_input_integer();
+       		if (!(number_of_reservations <= number_of_open_seats)) {
+       			continue;
+			}
+		}
+		display_seat_selection_input_message();
+		for (int i = 0; i < number_of_reservations; i++) {
+			selection[i] = get_input_integer();
+			if (seats[selection[i] - 1] == Closed || seats[selection[i] - 1] == Selected) {
+				i--;
+            	continue;
             } else {
-                seats[selection - 1] = Selected;
-            }
+                	seats[selection[i] - 1] = Selected;
+                	display_seat_table();
+    	    }
+		}
+		display_seat_check_message();
+		is_checked = get_input_char();
+      	if (is_status_positive(is_checked) == TRUE) {
+           	for (int i = 0; i < number_of_reservations; i++) {
+           		seats[selection[i] - 1] = Closed;
+            	number_of_open_seats--;
+			}
             display_seat_table();
-            display_seat_check_message();
-            is_checked = get_input_char();
-            if (is_status_positive(is_checked) == TRUE) {
-                seats[selection - 1] = Closed;
-                display_seat_table();
-                display_seat_reserved_message();
-                break;
-            } else {
-                seats[selection - 1] = Open;
-                display_seat_table();
-                continue;
-            }
+            display_seat_reserved_message();
+            break;
         } else {
-        	display_number_of_reservations_input_message();
-            number_of_reservations = get_input_integer();
-            display_seat_selection_table(number_of_reservations);
+       		for (int i = 0; i < number_of_reservations; i++) {
+       			seats[selection[i] - 1] = Open;
+			}
+           	display_seat_table();
+           	continue;
         }
-    }
+	}
 }
 TypeOfReservation choose_type_of_reservation() {
     TypeOfReservation type;
@@ -92,24 +99,11 @@ TypeOfReservation choose_type_of_reservation() {
 void display_choice_type_of_reservation_input_message() {
     puts("Please choose a type of reservation");
     puts("1. Individual");
-    puts("2. Group");
-}
-void display_seat_selection_table(int number_of_reservations) {  // n = 3 // 0 X X 3 4 5 6 7 8 9 => X X X 3 4 5 6 7 X X
-	int is_closed = 0;
-	print_horizontal_line();
-	for (int i = 0; i < SIZE_OF_SEATING_ARR; i += 3){
-		if ((seats[i] == Closed || seats[i + 1] == Closed || seats[i + 2] == Closed)){
-			printf(" X ");
-			printf(" X ");
-			printf(" X ");
-		} else{
-			for (int j = i; j < i + 3 && j < SIZE_OF_SEATING_ARR; j++) {
-    		    seats[j] == Open ? printf("%2d ", j + 1) : seats[j] == Selected ? printf(" # ") : printf(" X ");
-  		  	}
-		}
+    if (number_of_open_seats > 1){
+    	puts("2. Group");
+	} else{
+		puts("2. Group reservation is not allowed.");
 	}
-    putchar('\n');
-    print_horizontal_line();
 }
 void display_seat_table() {
     print_horizontal_line();
