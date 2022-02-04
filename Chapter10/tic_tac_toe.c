@@ -9,6 +9,8 @@ int display_board(int board[3][3]);
 void reset_board(int board[3][3]);
 void display_position_selection_input_message(TypeOfPlayer current_player);
 void select_position(TypeOfPlayer current_player);
+TypeOfPlayer check_winner(int board[3][3], TypeOfPlayer player);
+void display_winner(TypeOfPlayer winner);
 
 static int board[3][3] = { //int board[3][3] = { 0, };	// 1 = 1p, 2 = 2p, 0 = NULL
 	{ NonePlayer, NonePlayer, FirstPlayer },
@@ -18,14 +20,74 @@ static int board[3][3] = { //int board[3][3] = { 0, };	// 1 = 1p, 2 = 2p, 0 = NU
 	
 int main(void) {
 	TypeOfPlayer current_player = FirstPlayer;
+	int is_gameover = FALSE;
 	reset_board(board);
 	display_board(board);
-	while(TRUE) {
+	while(is_gameover != TRUE) {
 		display_position_selection_input_message(current_player);
 		select_position(current_player);
+		check_winner(board, current_player) == current_player ? is_gameover = TRUE : is_gameover = FALSE;
 		display_board(board);
-		current_player = current_player == FirstPlayer ? SecondPlayer : FirstPlayer; 
+		if (is_gameover == TRUE) {
+			continue;
+		}
+		current_player = current_player == FirstPlayer ? SecondPlayer : FirstPlayer;
 	}
+	display_winner(current_player);
+}
+
+void display_winner(TypeOfPlayer winner) {
+	if (winner == FirstPlayer) {
+		puts("Winner is 1p!"); 
+	} else if (winner == SecondPlayer) {
+		puts("Winner is 2p!"); 
+	} else {
+		puts("Draw");
+	}
+}
+
+TypeOfPlayer check_winner(int board[3][3], TypeOfPlayer player){
+	for (int i = 0 ; i < 3; i++) {	//가로줄 체크 
+		for (int j = 0; j < 3; j++) {
+			if (board[i][j] != player) {
+				break;
+			}
+			if(j == 2) {
+				return player;
+			}
+		}
+	}
+	
+	for (int i = 0 ; i < 3; i++) {	//세로줄 체크 
+		for (int j = 0; j < 3; j++) {
+			if (board[j][i] != player) {
+				break;
+			}
+			if(j == 2) {
+				return player;
+			}
+		}
+	}
+	
+	for (int i = 0 ; i < 3; i++) {	//좌상 - 우하 대각선 체크 
+		if (board[i][i] != player) {
+			break;
+		}
+		if(i == 2) {
+			return player;
+		}
+	}
+	
+	for (int i = 0 ; i < 3; i++) {	//우상 - 좌하 대각선 체크 ex) (0, 2), (1, 1), (2, 0)
+		if (board[i][2 - i] != player) {
+			break;
+		}
+		if(i == 2) {
+			return player;
+		}
+	}
+	
+	return NonePlayer;
 }
 
 void select_position(TypeOfPlayer current_player) {
@@ -67,7 +129,13 @@ int display_board(int board[3][3]) { //(x : 1 3 5 7 && y : 1 3 5 7) 1 3 5 7 = +,
 				if ((x + 1) % 2 == 1){
 					printf("|");
 				} else {
-					board[((y + 1) / 2) - 1][((x + 1) / 2) - 1] == FirstPlayer ? printf(" O ") : board[((y + 1) / 2) - 1][((x + 1) / 2) - 1] == SecondPlayer ? printf(" X ") : printf("   ");
+					if(board[((y + 1) / 2) - 1][((x + 1) / 2) - 1] == FirstPlayer) {
+						printf(" O ");
+					} else if (board[((y + 1) / 2) - 1][((x + 1) / 2) - 1] == SecondPlayer) {
+						printf(" X ");
+					} else {
+						printf("   ");
+					}
 				}
 			}
 		}
