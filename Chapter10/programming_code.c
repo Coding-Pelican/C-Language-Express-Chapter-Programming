@@ -147,12 +147,18 @@ void display_arr_of_2D(int a[5][3], int x_size, int y_size) {
 void display_arr_of_2D(int a[3][10], int x_size, int y_size);
 int main(void) {
 	int table[3][10] = { 0, };
+	int x;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 10; j++) {
 			table[i][j] = i + 1 == 1 ? j + 1 : (j + 1) * table[i - 1][j];  
 		}
 	}
 	display_arr_of_2D(table, 3, 10);
+	
+	scanf("%d", &x);
+	for(int i = 0; i < 10; i++) {
+		
+	}
 }
 void display_arr_of_2D(int a[3][10], int x_size, int y_size) {
 	for (int y = 0; y < y_size; y++) {
