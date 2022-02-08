@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-#define PI 3.141592
 #define TRUE 1
 #define FALSE 0
 
@@ -144,6 +143,7 @@ void display_arr_of_2D(int a[5][3], int x_size, int y_size) {
 }
 */
 //07
+/*
 void display_arr_of_2D(int a[3][10], int x_size, int y_size);
 int main(void) {
 	int table[3][10] = { 0, };
@@ -156,8 +156,15 @@ int main(void) {
 	display_arr_of_2D(table, 3, 10);
 	
 	scanf("%d", &x);
-	for(int i = 0; i < 10; i++) {
-		
+	for (int i = 0; i < 10; i++) {
+		if (table[2][i] == x) {
+			printf("%d의 세제곱은 %d\n", x, table[0][i]);
+			break;
+		} else {
+			if (i == 9) {
+				puts("Not Found");
+			}
+		}
 	}
 }
 void display_arr_of_2D(int a[3][10], int x_size, int y_size) {
@@ -168,3 +175,71 @@ void display_arr_of_2D(int a[3][10], int x_size, int y_size) {
 		printf("\n");
 	}
 }
+*/
+//08 E(X), V(X), Sigma(X) 
+/*
+double expectation(double x[]);
+double variation(double x[], double mean);
+double sigma(double x);
+
+const int size = 10;
+
+int main(void){
+	srand((unsigned)time(NULL));
+	double arr_of_random[size] = { 0, };
+	double x[size] = { 0, };
+	for (int i = 0; i < size; i++) {
+		arr_of_random[i] = (double)rand();
+	}
+	printf("E(arr_of_random) = %lf\n", expectation(arr_of_random));
+	for (int i = 0; i < size; i++) {
+		scanf(" %lf", &x[i]);
+	}
+	printf("mean is %lf\n", expectation(x));
+	printf("SD is %lf\n", sigma(variation(x, expectation(x))));
+}
+double sigma(double x){
+	return sqrt(x);
+}
+double variation(double x[], double mean){
+	double variance = 0;
+	for (int i = 0; i < size; i++) {
+		variance += pow(x[i], 2);
+	}
+	return variance / size - pow(mean, 2);
+}
+double expectation(double x[]){
+	double mean = 0;
+	for (int i = 0; i < size; i++) {
+		mean += x[i];
+	}
+	return mean / size;
+}
+*/
+//09
+/*
+const int number_of_student = 10;
+const int number_of_test = 3;
+const int max_range_of_score = 100;
+const int min_range_of_score = 0;
+int main(void){
+	int score[number_of_student][number_of_test] = { 0, };
+	int max, min;
+	srand((unsigned)time(NULL));
+	for (int i = 0; i < number_of_student; i++) {
+		for (int j = 0; j < number_of_test; j++) {
+			score[i][j] = rand() % (max_range_of_score + 1);
+		}
+	}
+	for (int i = 0; i < number_of_test; i++) {
+		max = min_range_of_score;
+		min = max_range_of_score;
+		for (int j = 0; j < number_of_student; j++) {
+			min = min < score[j][i] ? min : score[j][i];
+			max = max > score[j][i] ? max : score[j][i];
+ 		}
+ 		printf("TEST #%02d Max Score is %d\n", i + 1, max);
+ 		printf("TEST #%02d Min Score is %d\n", i + 1, min);
+	} 
+}
+*/
