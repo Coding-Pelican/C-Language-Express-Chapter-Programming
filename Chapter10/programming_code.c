@@ -418,3 +418,18 @@ void print_binary(int n, int binary[], int length) {
 	printf("\n");
 }
 */
+//14
+const int n = 20;
+const int m = 20;
+
+void delay(clock_t n);
+
+static int map[n][m] = { 0, };
+
+int main(void) {
+	
+}
+void delay(clock_t n) {
+  clock_t start = clock();
+  while(clock() - start < n);
+}
