@@ -243,3 +243,178 @@ int main(void){
 	} 
 }
 */
+//10-(a)
+/*
+void vector_add(double x[], double y[], double z[], int size);
+
+const int size = 3;
+
+int main(void) {
+	double x[size] = { 0, };
+	double y[size] = { 0, };
+	double z[size] = { 0, };
+	
+	for (int i = 0; i < size; i++) {
+		x[i] = (double)(i + 1);
+		y[i] = (double)(i + 1);
+	}
+	
+	vector_add(x, y, z, size);
+	
+	printf("[ ");
+	for (int i = 0; i < size; i++) {
+		printf("%lf ", z[i]);
+	}
+	printf("]\n");
+}
+
+void vector_add(double x[], double y[], double z[], int size) {
+	for (int i = 0; i < size; i++) {
+		z[i] = x[i] + y[i];
+	}
+}
+*/
+//10-(b)
+/*
+double vector_dot_prod(double x[], double y[], int size);
+
+const int size = 3;
+
+int main(void) {
+	double x[size] = { 0, };
+	double y[size] = { 0, };
+	double x_dot_y;
+	
+	for (int i = 0; i < size; i++) {
+		x[i] = (double)(i + 1);
+		y[i] = (double)(i + 1);
+	}
+	
+	x_dot_y = vector_dot_prod(x, y, size);
+	
+	printf("%lf\n", x_dot_y); 
+}
+
+double vector_dot_prod(double x[], double y[], int size) {
+	double temp = 0;
+	for (int i = 0; i < size; i++) {
+		temp += x[i] * y[i];
+	}
+	return temp;
+}
+*/
+//11
+/*
+const int number_of_products = 10;
+const int number_of_locations = 5; 
+int main(void) {
+	int n;
+	int product_location[number_of_products] = { 0, };
+	srand((unsigned)time(NULL));
+	for (int i = 0; i < number_of_products; i++) {
+		product_location[i] = rand() % number_of_locations + 1;
+	}
+	printf("\n");
+	scanf("%d", &n);
+	printf("%d : %d\n", n, product_location[n - 1]);
+}
+*/
+//12-(a)
+/*
+const int size = 3;
+
+void scalar_mult(int a[size][size], int scalar);
+
+int main(void) {
+	int matrix[size][size] = { 0, };
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			matrix[i][j] = (i * size) + (j + 1);
+		}
+	}
+	scalar_mult(matrix, 2);
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			printf("%2d ", matrix[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void scalar_mult(int a[size][size], int scalar) {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			a[i][j] *= scalar;
+		}
+	}
+}
+*/
+//12-(b)
+/*
+const int size = 3;
+void transpose(int a[size][size], int b[size][size], int size);
+int main(void) {
+	int target[size][size] = { 0, };
+	int result[size][size] = { 0, };
+	
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			target[i][j] = (i * size) + (j + 1);
+		}
+	}
+	
+	transpose(target, result, size);
+	
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			printf("%d ", result[i][j]);
+		}
+		printf("\n");
+	}
+}
+void transpose(int a[size][size], int b[size][size], int size) {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			b[i][j] = a[j][i];
+		}
+	}
+}
+*/
+//13
+/*
+const int max_length = 32;
+
+void get_binary(int n, int binary[], int length);
+void print_binary(int n, int binary[], int length);
+
+int main(void) {
+	int n;
+	int binary[max_length] = { 0, };
+	scanf("%d", &n);
+	
+	get_binary(n, binary, max_length);
+	print_binary(n, binary, max_length);
+}
+
+void get_binary(int n, int binary[], int length) {
+	for (int i = 0; i < length && n > 0; i++) {
+		binary[i] = n % 2;
+		n /= 2;
+	}
+}
+
+void print_binary(int n, int binary[], int length) {
+	int is_starting_point = FALSE;
+	printf("%d->", n);
+	for (int i = length; i > 0; i--) {
+		if (!(binary[i - 1] == 0 || is_starting_point != FALSE)){
+				is_starting_point = TRUE;
+		}
+			
+		if (is_starting_point == TRUE) {
+			printf("%d", binary[i - 1]);
+		}
+	}
+	printf("\n");
+}
+*/
