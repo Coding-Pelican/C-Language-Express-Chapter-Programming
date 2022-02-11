@@ -419,17 +419,131 @@ void print_binary(int n, int binary[], int length) {
 }
 */
 //14
-const int n = 20;
-const int m = 20;
+/*
+const int n = 20, m = 20, number_of_directions = 8;
 
 void delay(clock_t n);
+void print_map();
+void clear_screen();
+void set_random_spawn_pos();
+int set_move_direction();
+void move_to(int direction);
 
 static int map[n][m] = { 0, };
+int x = 0, y = 0;
 
 int main(void) {
-	
+	srand((unsigned)time(NULL));
+	set_random_spawn_pos();
+	while(TRUE){
+		print_map();
+		delay(250);
+		clear_screen();
+		move_to(set_move_direction());
+	}
 }
+
+void move_to(int direction) {
+	switch(direction) {
+		case 0 :
+			x = x;
+			y -= 1;
+			break;
+		case 1 :
+			x += 1;
+			y -= 1;
+			break;
+		case 2 :
+			x += 1;
+			y = y;
+			break;
+		case 3 :
+			x += 1;
+			y += 1;
+			break;
+		case 4 :
+			x = x;
+			y += 1;
+			break;
+		case 5 :
+			x -= 1;
+			y += 1;
+			break;
+		case 6 :
+			x -= 1;
+			y = y;
+			break;
+		case 7 :
+			x -= 1;
+			y -= 1;
+			break;
+		default :
+			break;
+	}
+	map[x][y] = 1;
+}
+
+int set_move_direction() {
+	return rand() % number_of_directions;
+}
+
+void set_random_spawn_pos() {
+	x = rand() % n;
+	y = rand() % m;
+	map[x][y] = 1;
+}
+
+void clear_screen() { 
+	system("cls");
+}
+
+void print_map() {
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			map[j][i] == 0 ? printf(". ") : printf("* ");
+		}
+		printf("\n");
+	}
+}
+
 void delay(clock_t n) {
   clock_t start = clock();
   while(clock() - start < n);
+}
+*/
+//15
+/*
+int main(void) {
+	int map[10][10] = { 0, };
+	int possibility = 30;
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			map[j][i] = rand() % 100 < possibility ? 1 : 0;
+		}
+	}
+	
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			map[j][i] == 1 ? printf("# ") : printf(". ");
+		}
+		printf("\n");
+	}
+}
+*/
+//16
+int main(void) {
+	char abailable_key[] = "wasdWASD";
+	char input_key;
+	while(TRUE) {
+		input_key = _getch;
+		for (int i = 0; i < 8; i++) {
+			if(input_key == abailable_key[i]) {
+				input_key == (abailable_key[0] || abailable_key[4]);
+			} else {
+				if (i == 7) {
+					continue;
+				}
+			}
+		}
+	}
 }
