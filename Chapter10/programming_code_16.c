@@ -36,10 +36,9 @@ int main(void) {
     char ch = ' ';
     char available_key[9] = "wasdWASD";
     initialize();
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 999999999; i++) {
         display_map();
         inputKey(ch, available_key);
-        delay(500);
         clear_screen();
     }
 }
@@ -48,6 +47,10 @@ void movePlayer(int direction) {
     data.map[data.player_pos.x][data.player_pos.y] = None;
     data.player_pos = addPosition(data.player_pos, environment.direction[direction]);
     spawnObject(Player, data.player_pos, data.map);
+}
+
+void moveEnemy(int direction) {
+
 }
 
 Position addPosition(Position u, Position v) {
@@ -66,18 +69,18 @@ Position setPosition(int x, int y) {
 
 void inputKey(char key, char available_key[]) {
     do {
-        key = 'a';
+        key = _getch();
         if (key == available_key[0] || key == available_key[4]) {
             movePlayer(North);
             break;
         } else if (key == available_key[1] || key == available_key[5]) {
-            movePlayer(East);
+            movePlayer(West);
             break;
         } else if (key == available_key[2] || key == available_key[6]) {
             movePlayer(South);
             break;
         } else if (key == available_key[3] || key == available_key[7]) {
-            movePlayer(West);
+            movePlayer(East);
             break;
         } else {
             continue;
@@ -94,13 +97,13 @@ void delay(clock_t n) {
 void clear_screen() { system("cls"); }
 
 void display_map() {
-    for (int x = 0; x < environment.width_size; x++) {
-        for (int y = 0; y < environment.height_size; y++) {
-            if (data.map[y][x] == Player) {
+    for (int y = 0; y < environment.height_size; y++) {
+        for (int x = 0; x < environment.width_size; x++) {
+            if (data.map[x][y] == Player) {
                 printf("@");
-            } else if (data.map[y][x] == Enemy) {
+            } else if (data.map[x][y] == Enemy) {
                 printf("M");
-            } else if (data.map[y][x] == Gold) {
+            } else if (data.map[x][y] == Gold) {
                 printf("G");
             } else {
                 printf(".");
@@ -115,7 +118,7 @@ void spawnObject(TypeOfObject object, Position at, int **on) { on[at.x][at.y] = 
 
 void createMap() {
     data.map = (int **)calloc(environment.width_size, sizeof(int));
-    for (int i = 0; i < environment.width_size; i++) {
+    for (int i = 0; i < environment.height_size; i++) {
         data.map[i] = (int *)calloc(environment.height_size, sizeof(int));
     }
 }
@@ -149,7 +152,6 @@ void initialize() {
     setSettingAsDefault();
     puts("default setting clear!");
     createMap();
-    display_map();
     puts("created map");
 
     do {
@@ -190,5 +192,3 @@ int getInt() {
     scanf("%d", &n);
     return n;
 }
-
-//map 표현 및 좌표값 설정 수정 필요
