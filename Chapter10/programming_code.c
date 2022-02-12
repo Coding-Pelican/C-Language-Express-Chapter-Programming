@@ -530,20 +530,3 @@ int main(void) {
 	}
 }
 */
-//16
-int main(void) {
-	char abailable_key[] = "wasdWASD";
-	char input_key;
-	while(TRUE) {
-		input_key = _getch;
-		for (int i = 0; i < 8; i++) {
-			if(input_key == abailable_key[i]) {
-				input_key == (abailable_key[0] || abailable_key[4]);
-			} else {
-				if (i == 7) {
-					continue;
-				}
-			}
-		}
-	}
-}
