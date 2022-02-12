@@ -11,7 +11,7 @@ typedef struct Position {
 void movePlayer(int direction);
 Position addPosition(Position u, Position v);
 Position setPosition(int x, int y);
-void inputKey(char input_key);
+void inputKey(char key, char available_key[]);
 void delay(clock_t n);
 void clear_screen();
 void display_map();
