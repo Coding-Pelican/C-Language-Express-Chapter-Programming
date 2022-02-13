@@ -1,5 +1,5 @@
-//programming_code_16
-//base roguelike game
+// programming_code_16
+// base roguelike game
 
 #include "test.h"
 
@@ -149,7 +149,7 @@ void clearScreen() {
     SetConsoleCursorPosition(hStdOut, homeCoords);
 }
 
-void ScreenMode(int cols, int lines) {
+void screenMode(int cols, int lines) {
     char str[100];
     sprintf(str, "mode con:cols=%d lines=%d", cols, lines);
     system(str);
@@ -209,13 +209,13 @@ void setSettingAsDefault() {
 }
 
 void initialize() {
-    puts("start init...");
     srand((unsigned)time(NULL));
     setSettingAsDefault();
+    //screenMode(environment.width_size, environment.height_size + 2);
+    puts("start init...");
     puts("default setting clear!");
     createMap();
     puts("created map");
-    //ScreenMode(environment.width_size, environment.height_size);
 
     do {
         environment.player_spawn_pos = setPosition(rand() % environment.width_size, rand() % environment.height_size);
@@ -241,6 +241,7 @@ void initialize() {
     }
     puts("initialization Complete!");
     hideCursor();
+    delay(1000);
 }
 
 char getChar() {
