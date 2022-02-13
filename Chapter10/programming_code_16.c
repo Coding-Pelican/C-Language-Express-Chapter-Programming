@@ -1,7 +1,7 @@
 // programming_code_16
 // base roguelike game
 
-#include "test.h"
+#include "programming_code_16.h"
 
 struct Setting {
     int width_size;
@@ -27,18 +27,34 @@ struct GameData {
 
 int main(void) {
     char ch = ' ';
-    char available_key[9] = "wasdWASD";
+    const char available_key[9] = "wasdWASD";
     initialize();
-    while (TRUE) {
+    while (data.isGameover == FALSE) {
         display_map();
         inputKey(ch, available_key);
         for (int i = 0; i < data.current_enemy_count; i++) {
             moveEnemy(i, rand() % 5);
+            detectPlayer(Enemy, i);
         }
+        detectPlayer(Gold, 0);
         delay(20);
         clearScreen();
     }
-    system("pause");
+    checkGameoverCondition();
+}
+
+void checkGameoverCondition() {
+    if (data.isGameover == TRUE) {
+        if (data.isClear == TRUE && data.isDied == FALSE) {
+            puts("Clear!");
+        } else if (data.isClear == FALSE && data.isDied == TRUE) {
+            puts("Your Died");
+        } else {
+            puts("Error");
+            delay(1000);
+            return main();
+        }
+    }
 }
 
 void movePlayer(int direction) {
@@ -57,7 +73,7 @@ void moveEnemy(int idx, int direction) {
     position_to_move = addPosition(data.enemy_pos[idx], environment.direction[direction]);
     if (direction < 4) {
         if (!(position_to_move.x < 0 || position_to_move.x > environment.width_size - 1 || position_to_move.y < 0 ||
-              position_to_move.y > environment.height_size - 1)) {
+              position_to_move.y > environment.height_size - 1 || distance(position_to_move, data.gold_pos) < 1)) {
             data.map[data.enemy_pos[idx].x][data.enemy_pos[idx].y] = None;
             data.enemy_pos[idx] = position_to_move;
             spawnObject(Enemy, data.enemy_pos[idx], data.map);
@@ -65,10 +81,16 @@ void moveEnemy(int idx, int direction) {
     }
 }
 
-void detectPlayer(TypeOfObject *object) {
-    if (object == Gold) {
+void detectPlayer(TypeOfObject *object, int idx) {
+    if (object == Enemy) {
+        if (distance(data.enemy_pos[idx], data.player_pos) < 1) {
+            data.isDied = TRUE;
+            data.isGameover = TRUE;
+        };
+    } else if (object == Gold) {
         if (distance(data.gold_pos, data.player_pos) < 1) {
             data.isClear = TRUE;
+            data.isGameover = TRUE;
         };
     }
 }
@@ -104,8 +126,14 @@ void inputKey(char key, char available_key[]) {
         } else if (key == available_key[3] || key == available_key[7] || key == South) {
             movePlayer(East);
             break;
+        } else if (key == Space) {
+            break;
         } else {
-            continue;
+            if (key == Esc) {
+                exit(0);
+            } else {
+                continue;
+            }
         }
     } while (TRUE);
 }
@@ -192,8 +220,8 @@ void setSettingAsDefault() {
 
     environment.width_size = 20;
     environment.height_size = 20;
-    environment.max_num_of_spawning_enemies = 2;
-    environment.min_num_of_spawning_enemies = 10;
+    environment.min_num_of_spawning_enemies = 2;
+    environment.max_num_of_spawning_enemies = 10;
     environment.direction[North] = setPosition(0, -1);
     environment.direction[East] = setPosition(1, 0);
     environment.direction[South] = setPosition(0, 1);
@@ -211,7 +239,7 @@ void setSettingAsDefault() {
 void initialize() {
     srand((unsigned)time(NULL));
     setSettingAsDefault();
-    //screenMode(environment.width_size, environment.height_size + 2);
+    // screenMode(environment.width_size, environment.height_size + 2);
     puts("start init...");
     puts("default setting clear!");
     createMap();
@@ -226,7 +254,7 @@ void initialize() {
 
     do {
         environment.gold_spawn_pos = setPosition(rand() % environment.width_size, rand() % environment.height_size);
-    } while (existsObject(Gold, environment.gold_spawn_pos, data.map) == TRUE);
+    } while (existsObject(Gold, environment.gold_spawn_pos, data.map) == TRUE || distance(environment.gold_spawn_pos, environment.player_spawn_pos) < 10);
     data.gold_pos = environment.gold_spawn_pos;
     spawnObject(Gold, data.gold_pos, data.map);
     puts("spawned Gold!");
@@ -240,8 +268,9 @@ void initialize() {
         puts("Spawned Enemy!");
     }
     puts("initialization Complete!");
-    hideCursor();
     delay(1000);
+    hideCursor();
+    clearScreen();
 }
 
 char getChar() {
