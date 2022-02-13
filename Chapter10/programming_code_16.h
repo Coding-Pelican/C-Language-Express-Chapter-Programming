@@ -1,5 +1,5 @@
-//programming_code_16
-//base roguelike game
+// programming_code_16
+// base roguelike game
 
 #pragma once
 #include <Windows.h>
@@ -28,7 +28,7 @@ void inputKey(char key, char available_key[]);
 void delay(clock_t n);
 void hideCursor();
 void clearScreen();
-void ScreenMode(int cols, int lines);
+void screenMode(int cols, int lines);
 void display_map();
 int existsObject(TypeOfObject object, Position at, int** on);
 void spawnObject(TypeOfObject object, Position at, int** on);
