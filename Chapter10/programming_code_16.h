@@ -2,6 +2,7 @@
 // base roguelike game
 
 #pragma once
+#pragma warning(disable: 4996)
 #include <Windows.h>
 #include <conio.h>
 #include <math.h>
@@ -15,8 +16,8 @@ typedef enum TypeOfObject { None = 0, Player, Enemy, Gold } TypeOfObject;
 typedef enum TypeOfDirection { North = 0, East, South, West } TypeOfDirection;
 enum keyboard { Up = 72, Left = 75, Right = 77, Down = 80, Space = 32, Esc = 27 };
 typedef struct Position {
-    int x;
-    int y;
+	int x;
+	int y;
 } Position;
 void checkGameoverCondition();
 void movePlayer(int direction);
