@@ -3,13 +3,6 @@
 
 #include "test.h"
 
-#include <conio.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#define TRUE 1
-#define FALSE 0
-
 struct Setting {
     int width_size;
     int height_size;
@@ -36,22 +29,51 @@ int main(void) {
     char ch = ' ';
     char available_key[9] = "wasdWASD";
     initialize();
-    for (int i = 0; i < 999999999; i++) {
+    while (TRUE) {
         display_map();
         inputKey(ch, available_key);
-        clear_screen();
+        for (int i = 0; i < data.current_enemy_count; i++) {
+            moveEnemy(i, rand() % 5);
+        }
+        delay(20);
+        clearScreen();
     }
+    system("pause");
 }
 
 void movePlayer(int direction) {
-    data.map[data.player_pos.x][data.player_pos.y] = None;
-    data.player_pos = addPosition(data.player_pos, environment.direction[direction]);
-    spawnObject(Player, data.player_pos, data.map);
+    Position position_to_move;
+    position_to_move = addPosition(data.player_pos, environment.direction[direction]);
+    if (!(position_to_move.x < 0 || position_to_move.x > environment.width_size - 1 || position_to_move.y < 0 ||
+          position_to_move.y > environment.height_size - 1)) {
+        data.map[data.player_pos.x][data.player_pos.y] = None;
+        data.player_pos = position_to_move;
+        spawnObject(Player, data.player_pos, data.map);
+    }
 }
 
-void moveEnemy(int direction) {
-
+void moveEnemy(int idx, int direction) {
+    Position position_to_move;
+    position_to_move = addPosition(data.enemy_pos[idx], environment.direction[direction]);
+    if (direction < 4) {
+        if (!(position_to_move.x < 0 || position_to_move.x > environment.width_size - 1 || position_to_move.y < 0 ||
+              position_to_move.y > environment.height_size - 1)) {
+            data.map[data.enemy_pos[idx].x][data.enemy_pos[idx].y] = None;
+            data.enemy_pos[idx] = position_to_move;
+            spawnObject(Enemy, data.enemy_pos[idx], data.map);
+        }
+    }
 }
+
+void detectPlayer(TypeOfObject *object) {
+    if (object == Gold) {
+        if (distance(data.gold_pos, data.player_pos) < 1) {
+            data.isClear = TRUE;
+        };
+    }
+}
+
+double distance(Position u, Position v) { return sqrt(pow(v.x - u.x, 2) + pow(u.y - v.y, 2)); }
 
 Position addPosition(Position u, Position v) {
     Position temp;
@@ -70,16 +92,16 @@ Position setPosition(int x, int y) {
 void inputKey(char key, char available_key[]) {
     do {
         key = _getch();
-        if (key == available_key[0] || key == available_key[4]) {
+        if (key == available_key[0] || key == available_key[4] || key == Up) {
             movePlayer(North);
             break;
-        } else if (key == available_key[1] || key == available_key[5]) {
+        } else if (key == available_key[1] || key == available_key[5] || key == Left) {
             movePlayer(West);
             break;
-        } else if (key == available_key[2] || key == available_key[6]) {
+        } else if (key == available_key[2] || key == available_key[6] || key == Down) {
             movePlayer(South);
             break;
-        } else if (key == available_key[3] || key == available_key[7]) {
+        } else if (key == available_key[3] || key == available_key[7] || key == South) {
             movePlayer(East);
             break;
         } else {
@@ -94,7 +116,44 @@ void delay(clock_t n) {
     };
 }
 
-void clear_screen() { system("cls"); }
+void hideCursor() {
+    CONSOLE_CURSOR_INFO cursorInfo = {
+        0,
+    };
+    cursorInfo.bVisible = 0;
+    cursorInfo.dwSize = 1;
+    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
+}
+
+void clearScreen() {
+    HANDLE hStdOut;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    DWORD count;
+    DWORD cellCount;
+    COORD homeCoords = {0, 0};
+
+    hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hStdOut == INVALID_HANDLE_VALUE) return;
+
+    /* Get the number of cells in the current buffer */
+    if (!GetConsoleScreenBufferInfo(hStdOut, &csbi)) return;
+    cellCount = csbi.dwSize.X * csbi.dwSize.Y;
+
+    /* Fill the entire buffer with spaces */
+    if (!FillConsoleOutputCharacter(hStdOut, (TCHAR)' ', cellCount, homeCoords, &count)) return;
+
+    /* Fill the entire buffer with the current colors and attributes */
+    if (!FillConsoleOutputAttribute(hStdOut, csbi.wAttributes, cellCount, homeCoords, &count)) return;
+
+    /* Move the cursor home */
+    SetConsoleCursorPosition(hStdOut, homeCoords);
+}
+
+void ScreenMode(int cols, int lines) {
+    char str[100];
+    sprintf(str, "mode con:cols=%d lines=%d", cols, lines);
+    system(str);
+}
 
 void display_map() {
     for (int y = 0; y < environment.height_size; y++) {
@@ -111,6 +170,7 @@ void display_map() {
         }
         printf("\n");
     }
+    printf("\n");
 }
 
 int existsObject(TypeOfObject object, Position at, int **on) { return on[at.x][at.y] == object ? TRUE : FALSE; }
@@ -123,6 +183,8 @@ void createMap() {
     }
 }
 
+int getNumberOfDigits(int n) { return floor(log10(n) + 1); }
+
 void setSettingAsDefault() {
     data.isGameover = FALSE;
     data.isClear = FALSE;
@@ -130,8 +192,8 @@ void setSettingAsDefault() {
 
     environment.width_size = 20;
     environment.height_size = 20;
-    environment.max_num_of_spawning_enemies = 10;
-    environment.min_num_of_spawning_enemies = 2;
+    environment.max_num_of_spawning_enemies = 2;
+    environment.min_num_of_spawning_enemies = 10;
     environment.direction[North] = setPosition(0, -1);
     environment.direction[East] = setPosition(1, 0);
     environment.direction[South] = setPosition(0, 1);
@@ -153,6 +215,7 @@ void initialize() {
     puts("default setting clear!");
     createMap();
     puts("created map");
+    //ScreenMode(environment.width_size, environment.height_size);
 
     do {
         environment.player_spawn_pos = setPosition(rand() % environment.width_size, rand() % environment.height_size);
@@ -177,6 +240,7 @@ void initialize() {
         puts("Spawned Enemy!");
     }
     puts("initialization Complete!");
+    hideCursor();
 }
 
 char getChar() {
