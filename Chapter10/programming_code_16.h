@@ -13,14 +13,15 @@
 #define TRUE 1
 typedef enum TypeOfObject { None = 0, Player, Enemy, Gold } TypeOfObject;
 typedef enum TypeOfDirection { North = 0, East, South, West } TypeOfDirection;
-enum keyboard { Up = 72, Left = 75, Right = 77, Down = 80, Space = 32 };
+enum keyboard { Up = 72, Left = 75, Right = 77, Down = 80, Space = 32, Esc = 27 };
 typedef struct Position {
     int x;
     int y;
 } Position;
+void checkGameoverCondition();
 void movePlayer(int direction);
 void moveEnemy(int idx, int direction);
-void detectPlayer(TypeOfObject* object);
+void detectPlayer(TypeOfObject* object, int idx);
 double distance(Position u, Position v);
 Position addPosition(Position u, Position v);
 Position setPosition(int x, int y);
