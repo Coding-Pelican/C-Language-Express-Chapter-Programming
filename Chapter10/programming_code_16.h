@@ -19,6 +19,7 @@ typedef struct Position {
 	int x;
 	int y;
 } Position;
+void gameExit();
 void checkGameoverCondition();
 void movePlayer(int direction);
 void moveEnemy(int idx, int direction);
