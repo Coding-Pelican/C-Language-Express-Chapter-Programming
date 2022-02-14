@@ -51,6 +51,13 @@ int main(void) {
 		clearScreen();
 	}
 	checkGameoverCondition();
+	gameExit();
+}
+
+void gameExit() {
+	free(data.map);
+	free(data.enemy_pos);
+	return exit(0);
 }
 
 void checkGameoverCondition() {
@@ -148,7 +155,7 @@ void inputKey(char key, char available_key[]) {
 		}
 		else {
 			if (key == Esc) {
-				exit(0);
+				gameExit();
 			}
 			else {
 				continue;
