@@ -1,6 +1,4 @@
 #include <bits/stdc++.h>
-#define FALSE 0
-#define TRUE !FALSE
 #define A array
 // 02
 /*
@@ -182,6 +180,7 @@ int main(void) {
 }
 */
 // 11
+/*
 int size = 4;
 void printArray(int* A, int size) {
 	for (int i = 0; i < size; i++) {
@@ -189,8 +188,22 @@ void printArray(int* A, int size) {
 	}
 	printf("\n");
 }
-void merge(int* A, int* B, int* C, int size){
-	int start = 0, middle = size, size * 2 - 1;
+void merge(int* A, int* B, int* C, int size) {
+	int a_cnt = 0, b_cnt = 0;
+	for (int i = 0; i < size + size; i++) {
+		if (a_cnt < size && b_cnt < size) {
+			if (A[a_cnt] < B[b_cnt]) {
+				C[i] = A[a_cnt++];
+			} else {
+				C[i] = B[b_cnt++];
+			}
+		} else if(a_cnt == size) {
+			C[i] = B[b_cnt++];
+		} else {
+			C[i] = A[a_cnt++];
+		}
+	}
+	
 }
 int main(void) {
 	int array_a[size] = { 2, 5, 7, 8, };
@@ -204,3 +217,15 @@ int main(void) {
 	printf("C[] = ");
 	printArray(array_c, size + size);
 }
+*/
+// 12
+/*
+void getInt(int* px, int* py){
+	scanf("%d %d", px, py);
+}
+int main(void) {
+	int x, y;
+	getInt(&x, &y);
+	printf("%d", x + y);
+}
+*/
